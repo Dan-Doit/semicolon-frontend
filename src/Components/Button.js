@@ -12,6 +12,7 @@ const Container = styled.button`
     props.bgColor ? props.bgColor : props.theme.navyColor};
   text-align: center;
   padding: 7px 0px;
+  margin-bottom : 5px;
   font-size: 14px;
   cursor:pointer;
 `;

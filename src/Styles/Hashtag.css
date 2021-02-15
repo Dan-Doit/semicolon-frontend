@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css?family=Overpass");
+* {
+  font-family: "Overpass", sans-serif;
+}
+
+#tags {
+  display: flex;
+}
+
+.tag {
+  padding: 0 8px;
+  cursor: pointer;
+}
+.tag .tag-title {
+  color: gray;
+  text-decoration: underline;
+  font-weight:bolder;
+}

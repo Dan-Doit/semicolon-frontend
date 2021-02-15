@@ -15,6 +15,7 @@ const SEE_FULL_POST = gql`
         id
         avatar 
         username
+        isSelf
       }
       files {
         id

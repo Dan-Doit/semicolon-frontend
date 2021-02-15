@@ -19,18 +19,18 @@ const Div1 = styled.div`
 `;
 
 export default ({ setSelfComments, id, comments }) => (
-    
-    <Popup
-    
+
+  <Popup
+
     modal
-    overlayStyle={{ background: "rgba(0,0,0,0.5" }}
+    overlayStyle={{ background: "rgba(0,0,0,0.5)" }}
     contentStyle={contentStyle}
     closeOnDocumentClick={false}
     trigger={(open) => <Div1 className={"Box"}><IoEllipsisHorizontalSharp size={16} open={open} /></Div1>}
-    >
+  >
 
 
-        {(close) => <Menu close={close} id={id} comments={comments} setSelfComments={setSelfComments } />}
-    </Popup>
-  
+    {(close) => <Menu close={close} id={id} comments={comments} setSelfComments={setSelfComments} />}
+  </Popup>
+
 );

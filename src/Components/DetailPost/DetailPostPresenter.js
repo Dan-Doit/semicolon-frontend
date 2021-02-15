@@ -1,19 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import FatText from "../FatText";
 import Avatar from "../Avatar";
 import { Link } from "react-router-dom";
-import { IoEllipsisHorizontalSharp } from "react-icons/io5";
-import Popup from 'reactjs-popup';
 import { Comment as CommentIcon } from "../Icons";
 import "../../Styles/Menu.css";
-import Menu from "../Menu";
 import LikePresenter from "./LikePresenter";
-import CommentPresenter from "./CommentPresenter";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import Theme from "../../Styles/Theme";
 import "../../Styles/PopUp.css";
 import MenuPopup from "../MenuPopup";
+import Loader from "../Loader";
+import EditPopup from "../EditPopup";
 
 const Post = styled.div`
   ${props => props.theme.whiteBox};
@@ -38,9 +36,9 @@ const Div1 = styled.div`
 //종훈 댓글
 const Div2 = styled.div`
       flex-wrap: wrap;
-    width: 70%;
+    width: 65%;
     overflow: auto;
-    height: 30px;
+
     word-break: break-all;
     overflow-y: hidden;
      margin: 0;
@@ -172,7 +170,7 @@ const Comments = styled.ul`
   overflow-y: auto;
 `;
 const Div3 = styled.div`
-      margin-bottom: 5px;
+    margin-bottom: 5px;
     margin-top: 10px;
 `
 const Comment = styled.li`
@@ -187,7 +185,7 @@ const Comment = styled.li`
 
 const Caption = styled.div`
   margin : 10px 0px;
-  margin-bottom : 20px;   
+  margin-bottom : 10px;   
 `;
 
 const contentStyle = {
@@ -195,10 +193,16 @@ const contentStyle = {
   width: "80%",
   border: "none"
 };
+const MoreButton = styled.span`
+  cursor: pointer;
+  margin-left: auto;
+  font-size: 20px;
+`;
 
 
 export default ({
   id,
+  isSelf,
   user: { username, avatar },
   location,
   files,
@@ -211,92 +215,105 @@ export default ({
   toggleLike,
   onKeyUp,
   comments,
-  delComment,
-  setSelfComments
-}) => (
-  <Div>
-  <Post>
-    
-    <Files>
-      {files &&
-        files.map((file, index) => (
-          <File key={file.id} src={file.url} showing={index === currentItem} />
-        ))}
-    </Files>
-    </Post>
-  <PostComment>
-    <Meta>
+  setSelfComments,
+  close
+}) => {
+  const [Copycaption, setCopycaption] = useState(caption);
+  const [deletePost, setDeletePost] = useState(true)
+  const [isLoader, setIsLoader] = useState(true)
+  if (!deletePost) {
+    close()
+  }
+  return (
+    <Div>
+      {isLoader ? null : <Loader />}
+      <Post>
+        <Files>
+          {files &&
+            files.map((file, index) => (
+              <File key={file.id} src={file.url} showing={index === currentItem} />
+            ))}
+        </Files>
+      </Post>
+      <PostComment>
+        <Meta>
           <Header>
-      <Avatar size="sm" url={avatar} />
-      <UserColumn>
-        <Link to={`/${username}`}>
-          <FatText text={username} />
-          </Link>
-        <Location>{location}</Location>
-      </UserColumn>
-        </Header>
-       
-        <Caption><FatText text={username} /> {caption}</Caption>
-
-      {comments && (
-        <Comments className={"commentsBox"}>
-          {comments.map((comment, index) => (
-            <Comment key={comment.id} index={index}>
+            <Avatar size="sm" url={avatar} />
+            <UserColumn>
+              <Link to={`/${username}`}>
               
-              <FatText text={comment.user.username} />
-              <Div2>
-              {comment.text}
-              </Div2>
-              <Div1>
-              <Button>
-                <MenuPopup setSelfComments={setSelfComments} id={comment.id} comments={comments }/>
-                {/* {popupMenu(comment.id, comments)} */}
-              </Button>
-              {/* <Button onClick={() => delComment(comment.id)}>
+              </Link>
+              <Location>{location}</Location>
+              <Caption><FatText text={username} /> {Copycaption}</Caption>
+            </UserColumn>
+
+            <MoreButton >
+              {isSelf ? <EditPopup id={id} setIsLoader={setIsLoader} setDeletePost={setDeletePost} setCopycaption={setCopycaption} Copycaption={Copycaption} /> : null}
+            </MoreButton>
+          </Header>
+
+          
+
+          {comments && (
+            <Comments className={"commentsBox"}>
+              {comments.map((comment, index) => (
+                <Comment key={comment.id} index={index}>
+
+                  <FatText text={comment.user.username} />
+                  <Div2>
+                    {comment.text}
+                  </Div2>
+                  <Div1>
+                    <Button>
+                      <MenuPopup setSelfComments={setSelfComments} id={comment.id} comments={comments} />
+                      {/* {popupMenu(comment.id, comments)} */}
+                    </Button>
+                    {/* <Button onClick={() => delComment(comment.id)}>
                 삭제
               </Button> */}
-              
-              <LikePresenter commentId={comment.id} isCommented={comment.isCommented} />
-              </Div1>         
 
-              <Timestamp>{createdAt}</Timestamp>
-              </Comment>
-            ))}
-          </Comments>
-          
-      )}
-        
-        <Buttons>
-          <Div3>
-        <Button onClick={toggleLike}>
-            {isLiked ? <FaStar size={26} color={Theme.starColor } /> : <FaRegStar size={26} />}
-          </Button>
-          
-        <Button>
-          
-          <CommentIcon />
-            </Button>
+                    <LikePresenter commentId={comment.id} isCommented={comment.isCommented} />
+                  </Div1>
+
+                  <Timestamp>{createdAt}</Timestamp>
+                </Comment>
+              ))}
+            </Comments>
+
+          )}
+
+          <Buttons>
+            <Div3>
+              <Button onClick={toggleLike}>
+                {isLiked ? <FaStar size={26} color={Theme.starColor} /> : <FaRegStar size={26} />}
+              </Button>
+
+              <Button>
+
+                <CommentIcon />
+              </Button>
             </Div3>
-          
-        </Buttons>
-        <FatText text={likeCount === 1 ? "1 like" : `${likeCount} likes`} />
-         <Timestamp>{createdAt}</Timestamp>
-     
-         <Textarea
-        placeholder={"Add a comment..."}
-        value={newComment.value}
-        onChange={newComment.onChange}
-          onKeyPress={onKeyUp} />
-      </Meta>
-    </PostComment>
+
+          </Buttons>
+          <FatText text={likeCount === 1 ? "1 like" : `${likeCount} likes`} />
+          <Timestamp>{createdAt}</Timestamp>
+
+          <Textarea
+            placeholder={"Add a comment..."}
+            value={newComment.value}
+            onChange={newComment.onChange}
+            onKeyPress={onKeyUp} />
+        </Meta>
+      </PostComment>
     </Div>
-);
+  )
+};
 
 
 // const popupMenu = (commentId, comments) => (
-    
+
 //     <Popup
-    
+
 //     modal
 //     overlayStyle={{ background: "rgba(0,0,0,0.7" }}
 //     contentStyle={contentStyle}
@@ -307,5 +324,5 @@ export default ({
 
 //       {(close) => <Menu close={close} commentId={commentId} comments={comments} />}
 //     </Popup>
-  
+
 // );

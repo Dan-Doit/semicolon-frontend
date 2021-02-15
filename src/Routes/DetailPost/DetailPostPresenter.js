@@ -30,7 +30,7 @@ export default ({ loading, data }) => {
           seeFullPost: {
             id,
             user,
-            user: { username, avatar },
+            user: { isSelf,username, avatar },
             location,
             files,
             isLiked,
@@ -42,7 +42,7 @@ export default ({ loading, data }) => {
             toggleLike,
             onKeyUp,
             comments,
-            selfComments    
+            selfComments,
             } 
         } = data;
         return (
@@ -52,6 +52,7 @@ export default ({ loading, data }) => {
                 </Helmet>
                
                 <DetailPost key={id}
+                isSelf={isSelf}
                     id={id}
                     user={user}
                     files={files}

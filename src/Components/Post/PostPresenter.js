@@ -1,15 +1,16 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import TextareaAutosize from "react-autosize-textarea";
 import FatText from "../FatText";
 import Avatar from "../Avatar";
 import { Link } from "react-router-dom";
-import { StarFull, StarEmpty, Comment as CommentIcon } from "../Icons";
+import { Comment as CommentIcon } from "../Icons";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import Theme from "../../Styles/Theme";
 import Popup from 'reactjs-popup';
 import DetailPost from "../DetailPost/index";
 import "../../Styles/PopUp.css";
+import '../../Styles/Hashtag.css';
 
 const Post = styled.div`
   ${props => props.theme.whiteBox};
@@ -123,105 +124,130 @@ const CommentCount = styled.span`
   padding-bottom: 4px;
   cursor: pointer;
 `;
+const Tag = styled.div`
+  margin-left:auto;
+`;
 
 export default ({
-    user: { username, avatar },
-    user,
-    id,
-    location,
-    files,
-    isLiked,
-    likeCount,
-    createdAt,
-    newComment,
-    caption,
-    currentItem,
-    toggleLike,
-    onKeyUp,
-    comments,
-    selfComments
-  }) => (
-    <Post>
-      <Header>
-        <Avatar size="sm" url={avatar} />
-        <UserColumn>
-          <Link to={`/${username}`}>
-            <FatText text={username} />
-          </Link>
-          <Location>{location}</Location>
-        </UserColumn>
-      </Header>
-      <Files>
-        {files &&
-
-          files.map((file, index) => (
-            <File key={file.id} src={file.url} showing={index === currentItem} />
-          ))}
-      </Files>
-      <Meta>
-        <Buttons>
-          <Button onClick={toggleLike}>
+  user: { username, avatar },
+  hashes,
+  user,
+  id,
+  location,
+  files,
+  isLiked,
+  likeCount,
+  createdAt,
+  newComment,
+  caption,
+  currentItem,
+  toggleLike,
+  onKeyUp,
+  comments,
+  selfComments,
+  isSelf
+}) => (
+  <Post>
+    <Header>
+      <Avatar size="sm" url={avatar} />
+      <UserColumn>
+        <Link to={`/${username}`}>
+          <FatText text={username} />
+        </Link>
+        <Location>{location}</Location>
+      </UserColumn>
+	    <Tag>
+          <TagsInput key={id} tags={hashes} />
+        </Tag>
+    </Header>
+    <Files>
+      {files &&
+        files.map((file, index) => (
+          <File key={file.id} src={file.url} showing={index === currentItem} />
+        ))}
+    </Files>
+    <Meta>
+      <Buttons>
+        <Button onClick={toggleLike}>
           {isLiked ? <FaStar size={26} color={Theme.starColor} /> : <FaRegStar size={26} />}
-          </Button>
-          <Button>
-          
-            <CommentIcon />
-          </Button>
-        </Buttons>
-        <FatText text={likeCount === 1 ? "1 like" : `${likeCount} likes`} />
-        <Caption><FatText text={username} /> {caption} </Caption>
-        {PopupPost(id,user,files,likeCount,caption,avatar,isLiked,comments,createdAt)}
-        {comments && (
-          <Comments>
-            {selfComments.map(comment => (
-              <Comment key={comment.id}>
-                <Link to={`/${comment.user.username}`}>
-                  
-                  <FatText text={comment.user.username} />
-                  </Link>
-                {comment.text}
-              </Comment>
-            ))}
-          </Comments>
-        )}
-        <Timestamp>{createdAt}</Timestamp>
-        <Textarea
-          placeholder={"Add a comment..."}
-          value={newComment.value}
-          onChange={newComment.onChange}
-          onKeyPress={onKeyUp} />
-      </Meta>
-    </Post>
+        </Button>
+        <Button>
+
+          <CommentIcon />
+        </Button>
+      </Buttons>
+      <FatText text={likeCount === 1 ? "1 like" : `${likeCount} likes`} />
+      <Caption><FatText text={username} /> {caption} </Caption>
+      {PopupPost(id, user, files, likeCount, caption, avatar, isLiked, comments, createdAt, isSelf)}
+      {comments && (
+        <Comments>
+          {selfComments.map(comment => (
+            <Comment key={comment.id}>
+              <Link to={`/${comment.user.username}`}>
+
+                <FatText text={comment.user.username} />
+              </Link>
+              {comment.text}
+            </Comment>
+          ))}
+        </Comments>
+      )}
+      <Timestamp>{createdAt}</Timestamp>
+      <Textarea
+        placeholder={"Add a comment..."}
+        value={newComment.value}
+        onChange={newComment.onChange}
+        onKeyPress={onKeyUp} />
+    </Meta>
+  </Post>
+);
+
+
+const TagsInput = props => {
+  const [tag] = useState(props.tags);
+  return (
+    <div className="tages-input">
+      <ul id="tags">
+        {tag.map((tag, index) => (
+          <li key={index} className="tag">
+            <a className='tag-title' href={`http://localhost:3000/#/search?term=${tag.tag}`}>;{tag.tag}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
+};
 
-
-const PopupPost = (id,user,files,likeCount,caption,avatar,isLiked,comments,createdAt) => (
-  
-  <Popup trigger={comments.length === 0 ?<CommentCount> </CommentCount> :<CommentCount>댓글 {comments.length}개 더보기</CommentCount> } modal nested>
+const PopupPost = (id, user, files, likeCount, caption, avatar, isLiked, comments, createdAt, isSelf) => (
+  <Popup trigger={comments.length > 0 && <CommentCount>댓글 {comments.length}개 더보기</CommentCount>} modal nested>
     {close => (
       <div className="modal">
+        
         <button className="close" onClick={close}>
           &times;
         </button>
-        
+
         <div className="content">
-            {' '}
-             <DetailPost key={id}
-                    id={id}
-                    user={user}
-                    files={files}
-                    likeCount={likeCount}
-                    caption={caption}
-                    avatar={avatar}
-                    isLiked={isLiked}
-                    comments={comments}
-                    createdAt={createdAt}
-                />
+          {' '}
+          <DetailPost
+            close={close}
+            isSelf={isSelf}
+            key={id}
+            id={id}
+            user={user}
+            files={files}
+            likeCount={likeCount}
+            caption={caption}
+            avatar={avatar}
+            isLiked={isLiked}
+            comments={comments}
+            createdAt={createdAt}
+          />
         </div>
         <div className="actions">
-        
+
         </div>
       </div>
     )}
   </Popup>
-  );
+);
