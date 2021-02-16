@@ -13,7 +13,7 @@ const contentStyle = {
 export default ({ id, setCopycaption, Copycaption, setIsLoader, setDeletePost }) => {
     return (<Popup
         modal
-        overlayStyle={{ background: "rgba(255,255,255,0.5" }}
+        overlayStyle={{ background: "rgba(0,0,0,0.5" }}
         contentStyle={contentStyle}
         closeOnDocumentClick={false}
         trigger={(open) => <IoEllipsisHorizontalSharp open={open} />}>

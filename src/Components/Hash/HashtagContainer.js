@@ -12,9 +12,7 @@ export const TagsInput = props => {
             event.target.value = "";
         }
     };
-    const Linktags = tag => {
-        console.log(tag);
-    }
+
     return (
         <>
             <div className="tages-input">

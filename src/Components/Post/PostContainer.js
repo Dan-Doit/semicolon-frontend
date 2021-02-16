@@ -22,7 +22,7 @@ const PostContainer = ({
   isSelf,
   hashes
 }) => {
-  console.log(hashes) 
+ 
   const [isLikedS, setIsLiked] = useState(isLiked);
   const [likeCountS, setLikeCount] = useState(likeCount);
   const [currentItem, setCurrentItem] = useState(0);

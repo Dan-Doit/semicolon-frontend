@@ -106,7 +106,7 @@ export default () => {
     } else if (action === "logIn1") {
       if (password.value !== "") {
         const { data: { confirmUser } } = await confirmUserMutation();
-        if (confirmUser !== "츄라이 츄라이 어게인") {
+        if (confirmUser !== "TryAgain") {
           await logUserInMutation({ variables: { token: confirmUser } });
         }
         else {

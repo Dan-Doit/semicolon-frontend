@@ -37,6 +37,45 @@ const Button = styled.button`
   margin-left: 26px;
   margin-right: 26px;
 `;
+const Div = styled.div`
+animation: IGCoreModalShow .1s ease-out;
+  background-color: rgba(var(--f23,255,255,255),1);
+  border-radius: 12px;
+  border:none;
+  width:400px;
+  margin: auto;
+`
+
+const Span = styled.span`
+  width: 100%;
+  border: 0;  
+  color : black;
+  text-align: center;
+  cursor:pointer;
+  display:block;
+  height: 48px;
+  border:none;
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+  border-top: 1px solid rgba(var(--b6a,219,219,219),1); 
+  line-height: 3.4;
+`
+const SpanS = styled.span`
+  border-bottom: 0;
+  border-left: 0;
+  border-right: 0;
+  border-top: 1px solid rgba(var(--b6a,219,219,219),1);
+  color: rgba(var(--i30,237,73,86),1);
+  width: 100%; 
+  border: 0;  
+  text-align: center;
+  cursor:pointer;
+  display:block;
+  height: 48px;
+  border:none;
+  line-height: 3.4;
+`
 
 const EDIT_POST = gql`
   mutation editPost(
@@ -80,16 +119,17 @@ export default ({ close, id, setCopycaption, Copycaption, setIsLoader, setDelete
 
   return (<Popup
     modal
-    overlayStyle={{ background: "rgba(255,255,255,0.8" }}
+    overlayStyle={{ background: "rgba(0,0,0,0.5" }}
     contentStyle={contentStyle}
     closeOnDocumentClick={false}
     trigger={(open) => (
       <div className="menu">
-        <ul>
-          <li open={open}>제목수정</li>
-          <li onClick={() => { deletePost() }}>삭제</li>
-          <li onClick={close}>닫기</li>
-        </ul>
+        <Div>
+  
+          <SpanS onClick={() => { deletePost() }}>삭제</SpanS>
+          <Span open={open}>제목수정</Span>
+          <Span onClick={close}>닫기</Span>
+        </Div>
       </div >
     )}
   >
@@ -99,5 +139,4 @@ export default ({ close, id, setCopycaption, Copycaption, setIsLoader, setDelete
         <Button disabled={loading} onClick={close}> {loading ? <Loader /> : <Text>취소</Text>}</Button></Inputs></Inputs>)}
   </Popup>)
 }
-
 

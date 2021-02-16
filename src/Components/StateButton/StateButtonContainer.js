@@ -7,7 +7,7 @@ import { ME } from "../../SharedQueries";
 
 const StateButtonContainer = ({ state }) => {
     const [states, setStates] = useState(state);
-    console.log(states)
+
     const [stateMutation] = useMutation(SET_STATE)
 
     const onClick = () => {
