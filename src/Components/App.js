@@ -37,8 +37,8 @@ export default () => {
             {isLoggedIn && <Header />}
             <Wrapper>
               <Routes isLoggedIn={isLoggedIn} />
-              <Footer />
             </Wrapper>
+              <Footer />
           </>
         </Router>
         <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />

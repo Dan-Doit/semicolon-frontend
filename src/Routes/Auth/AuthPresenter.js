@@ -28,7 +28,13 @@ const StateChanger = styled(Box)`
 const Link = styled.span`
   color: ${props => props.theme.ivoryColor};
   cursor: pointer;
+  margin-bottom: 10px;
 `;
+
+const LinkCon = styled.div`
+  margin-bottom : 10px;
+`;
+
 
 const Form = styled(Box)`
   padding: 40px;
@@ -65,52 +71,52 @@ export default ({
     <Form>
       {action === "logIn" && (
         <form onSubmit={onSubmit}>
+          <Input placeholder={"이메일"} {...email} type="email" />
+          <Button text={"다음"} />
+        </form>
+      )}{action === "logIn1" && (
+        <form onSubmit={onSubmit}>
+          <Input placeholder={"비밀번호 최소 8자 문자 숫자 하나 이상"}{...password} type="password" />
+          <Button text={"로그인"} />
+        </form>
+      )}{action === "signUp1" && (
+        <form onSubmit={onSubmit}>
           <Input placeholder={"Email"} {...email} type="email" />
-          <Button text={"Next"} />
-        </form>
-      )}{action === "logIn1" &&(
-        <form onSubmit={onSubmit}>
-          <Input placeholder={"PassWord"}{...password} type="password"/>
-          <Button text={"Log in"}/>
-        </form>
-      )}{action ==="signUp1" &&(
-        <form onSubmit={onSubmit}>
-          <Input placeholder={"Email"} {...email} type="email"/>
-          <Button text={"Check email"} />
+          <Button text={"이메일 확인"} />
           <FacebookLogin
             appId="950295009072300"
             autoLoad={false}
             fields="name,first_name,last_name,email"
             callback={responseFacebook}
             render={renderProps => (
-              <Button bgColor={"#2D4DA7"} onClick={renderProps.onClick} text={"This is my custom Facebook button"} />
+              <Button bgColor={"#2D4DA7"} onClick={renderProps.onClick} text={"페이스북계정으로 회원가입"} />
             )}
-            
+
           />
           <GoogleLogin
             clientId="279164621755-f168i4jn1vn7da4t0lkd63hlcaprl0mf.apps.googleusercontent.com"
             render={renderProps => (
-              <Button bgColor={"#E34133"} onClick={renderProps.onClick} text={"This is my custom Google button"}/>
+              <Button bgColor={"#E34133"} onClick={renderProps.onClick} text={"구글계정으로 회원가입"} />
             )}
             buttonText="Login"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
           />
         </form>
-      )}{ action === 'signUp' && (
+      )}{action === 'signUp' && (
         <form onSubmit={onSubmit}>
-          <Input placeholder={"First name"} {...firstName} />
-          <Input placeholder={"Last name"} {...lastName} />
-          <Input placeholder={"Email"} {...email} type="email" />
-          <Input placeholder={"Username"} {...username} />
-          <Input placeholder={"Password"}{...password} type="password"/>
-          <Button text={"Sign up"} />
+          <Input placeholder={"이름"} {...firstName} />
+          <Input placeholder={"성"} {...lastName} />
+          <Input placeholder={"이메일"} {...email} type="email" />
+          <Input placeholder={"닉네임"} {...username} />
+          <Input placeholder={"비밀번호 최소 8자 문자 숫자 하나 이상"}{...password} type="password" />
+          <Button text={"회원가입"} />
         </form>
       )}
       {action === 'FindPw' && (
         <form onSubmit={onSubmit}>
-          <Input placeholder={"Email"} {...email} type="email" />
-          <Button text={"보내기"} />
+          <Input placeholder={"이메일"} {...email} type="email" />
+          <Button text={"전송"} />
         </form>
       )}
       {action === 'ConfirmSc' && <form onSubmit={onSubmit}>
@@ -119,29 +125,29 @@ export default ({
       </form>}
       {action === 'confirm' && <form onSubmit={onSubmit}>
         <Input placeholder="전송된 값을 입력해주세요!" required {...secret} />
-        <Button text={'Confirm'} />
-        </form>
+        <Button text={'확인'} />
+      </form>
       }
       {action === 'setPw' && <form onSubmit={onSubmit}>
-        <Input placeholder={"Password"}{...password} type="password" />
+        <Input placeholder={"비밀번호 최소 8자 문자 숫자 하나 이상"}{...password} type="password" />
         <Button text={'확인'} />
-        </form>}
+      </form>}
     </Form>
     {action !== 'confirm' && (
       <StateChanger>
-      {action === "logIn" ? (
-        <>
-          Don't have an account?{" "}
-          <Link onClick={() => setAction("signUp1")}>Sign up<br/></Link>
-          Forgot your password?{" "}
-          <Link onClick={() => setAction("FindPw")}>here!</Link>
+        {action === "logIn" ? (
+          <>
+            
+            <LinkCon>계정이 없으신가요?{" "}<Link onClick={() => setAction("signUp1")}>회원가입하기!<br /></Link></LinkCon>
+           
+            비밀번호를 잊으셨나요?{" "}<Link onClick={() => setAction("FindPw")}>여기로!</Link>
           </>
-      ) : (
-        <>
-          Have an account?{" "}
-          <Link onClick={() => setAction("logIn")}>Log in</Link>
-        </>
-      )}
-    </StateChanger>)}
+        ) : (
+            <>
+              계정이 있으신가요?{" "}
+              <Link onClick={() => setAction("logIn")}>로그인하기!</Link>
+            </>
+          )}
+      </StateChanger>)}
   </Wrapper>
 );

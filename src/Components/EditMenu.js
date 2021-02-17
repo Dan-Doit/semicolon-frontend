@@ -79,7 +79,7 @@ const SpanS = styled.span`
 
 const EDIT_POST = gql`
   mutation editPost(
-    $id : String!,
+    $id: String!,
   $caption:String!
   ) { editPost(
     id: $id,
@@ -88,9 +88,9 @@ const EDIT_POST = gql`
 `;
 const DELETE_POST = gql`
   mutation deletePost(
-    $id : String!
+    $id: String!
   ) { 
-    deletePost(id: $id ) 
+    deletePost(id: $id) 
   }
 `;
 export default ({ close, id, setCopycaption, Copycaption, setIsLoader, setDeletePost }) => {
@@ -101,7 +101,10 @@ export default ({ close, id, setCopycaption, Copycaption, setIsLoader, setDelete
       variables: { id, caption: editCaption.value },
       refetchQueries: [{ query: FEED_QUERY }]
     });
-  const [deletePostMutation] = useMutation(DELETE_POST, { variables: { id } });
+
+  const [deletePostMutation] = useMutation(DELETE_POST, 
+    { variables: { id }, 
+    refetchQueries: [{ query: FEED_QUERY }]});
 
   const editSubmit = async () => {
     setLoading(true)
@@ -125,7 +128,6 @@ export default ({ close, id, setCopycaption, Copycaption, setIsLoader, setDelete
     trigger={(open) => (
       <div className="menu">
         <Div>
-  
           <SpanS onClick={() => { deletePost() }}>삭제</SpanS>
           <Span open={open}>제목수정</Span>
           <Span onClick={close}>닫기</Span>
@@ -139,4 +141,3 @@ export default ({ close, id, setCopycaption, Copycaption, setIsLoader, setDelete
         <Button disabled={loading} onClick={close}> {loading ? <Loader /> : <Text>취소</Text>}</Button></Inputs></Inputs>)}
   </Popup>)
 }
-

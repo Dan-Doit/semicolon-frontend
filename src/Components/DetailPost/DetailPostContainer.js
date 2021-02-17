@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import useInput from "../../Hooks/useInput";
 import PostPresenter from "./DetailPostPresenter";
 import { useMutation } from "react-apollo-hooks";
-import { TOGGLE_LIKE, ADD_COMMENT, DELETE_COMMENT } from "./DetailPostQueries";
+import { TOGGLE_LIKE, ADD_COMMENT } from "./DetailPostQueries";
 import { toast } from "react-toastify";
 import { FEED_QUERY } from "../../Routes/Feed";
 
@@ -35,7 +35,6 @@ const PostContainer = ({
     variables: { postId: id, text: comment.value }, refetchQueries: [{ query: FEED_QUERY }]
   });
 
-  // const [removeCommentMutation] = useMutation(DELETE_COMMENT);
   const slide = () => {
     const totalFiles = files.length;
     if (currentItem === totalFiles - 1) {

@@ -9,8 +9,8 @@ export default withRouter(({ location: { search } }) => {
   const { data, loading } = useQuery(SEARCH, {
     skip: term === undefined,
     variables: {
-      term:decodeURI(term)
+      term: decodeURI(term)
     }
   });
-  return <SearchPresenter searchTerm={term} loading={loading} data={data} />;
+  return (< SearchPresenter searchTerm={term} loading={loading} data={data} /> )
 });

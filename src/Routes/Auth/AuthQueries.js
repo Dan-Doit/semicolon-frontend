@@ -65,3 +65,9 @@ mutation checkemail($email: String!){
   checkemail(email: $email)
 }
 `
+
+export const CHECK_EMAILPW = gql`
+mutation pwCheckemail($email: String!){
+  pwCheckemail(email: $email)
+}
+`

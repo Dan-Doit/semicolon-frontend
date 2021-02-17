@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import AuthPresenter from "./AuthPresenter";
 import useInput from "../../Hooks/useInput";
-import { useMutation, useQuery } from "react-apollo-hooks";
-import { LOG_IN, CREATE_ACCOUNT, CONFIRM_SECRET, LOG_USER_IN, CONFIRM_USER, CHECK_EMAIL, FIND_PW, UPDATE_PW } from "./AuthQueries";
+import { useMutation } from "react-apollo-hooks";
+import { LOG_IN, CREATE_ACCOUNT, CONFIRM_SECRET, LOG_USER_IN, CONFIRM_USER, CHECK_EMAIL, FIND_PW, UPDATE_PW, CHECK_EMAILPW } from "./AuthQueries";
 import { toast } from "react-toastify";
 
 
@@ -16,21 +16,21 @@ export default () => {
   const password = useInput("");
 
   const responseGoogle = (response) => {
-    email.setvalue(response.profileObj.email);
-    firstName.setvalue(response.profileObj.givenName)
-    lastName.setvalue(response.profileObj.familyName)
+    email.setValue(response.profileObj.email);
+    firstName.setValue(response.profileObj.givenName)
+    lastName.setValue(response.profileObj.familyName)
     const [GGusername] = response.profileObj.email.split('@');
-    username.setvalue(GGusername);
+    username.setValue(GGusername);
     setAction('signUp');
   }
 
   const responseFacebook = async (response) => {
-    console.log(response)
-    email.setvalue(response.email);
-    firstName.setvalue(response.first_name);
-    lastName.setvalue(response.last_name);
+    console.log(response.email)
+    email.setValue(response.email);
+    firstName.setValue(response.first_name);
+    lastName.setValue(response.last_name);
     const [FBusername] = response.email.split('@');
-    username.setvalue(FBusername);
+    username.setValue(FBusername);
     setAction('signUp');
   }
   const [requestSecretMutation] = useMutation(LOG_IN, {
@@ -69,6 +69,13 @@ export default () => {
     }
   });
 
+
+  const [checkemailpwQuery] = useMutation(CHECK_EMAILPW, {
+    variables: {
+      email: email.value
+    }
+  });
+
   const [findrequestSecretMutation] = useMutation(FIND_PW, {
     variables: {
       email: email.value
@@ -83,8 +90,9 @@ export default () => {
   })
   const onSubmit = async (e) => {
     e.preventDefault();
+    const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    const pwdRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     if (action === "logIn") {
-      const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (email.value !== "" || emailRegex) {
         try {
           const { data: { checkemail } } = await checkemailQuery();
@@ -104,7 +112,8 @@ export default () => {
         toast.error("이메일은 반드시 작성해야해요!");
       }
     } else if (action === "logIn1") {
-      if (password.value !== "") {
+
+      if (password.value !== "" || pwdRegex) {
         const { data: { confirmUser } } = await confirmUserMutation();
         if (confirmUser !== "TryAgain") {
           await logUserInMutation({ variables: { token: confirmUser } });
@@ -138,7 +147,7 @@ export default () => {
         username.value !== "" &&
         firstName.value !== "" &&
         lastName.value !== "" &&
-        password.value !== ""
+        password.value !== "" && pwdRegex
       ) {
         try {
           const { data: { createAccount } } = await createAccountMutation();
@@ -172,9 +181,9 @@ export default () => {
     } else if (action === "FindPw") {
       if (email.value !== "") {
         try {
-          const { data: { checkemail } } = await checkemailQuery();
-          console.log(checkemail)
-          if (checkemail) {
+          const { data: { pwCheckemail } } = await checkemailpwQuery();
+          console.log(pwCheckemail)
+          if (pwCheckemail) {
             const { data: { findrequestSecret } } = await findrequestSecretMutation();
             console.log(findrequestSecret)
             if (findrequestSecret) {

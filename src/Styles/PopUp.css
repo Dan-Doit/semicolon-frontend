@@ -4,7 +4,7 @@
   font-size: 12px;
 }
 
-.modal > .header {
+.modal>.header {
   width: 100%;
   border-bottom: 1px solid gray;
   font-size: 18px;
@@ -12,17 +12,17 @@
   padding: 5px;
 }
 
-.modal > .content {
+.modal>.content {
   padding: 10px 5px;
 }
 
-.modal > .actions {
+.modal>.actions {
   padding: 10px 5px;
   margin: auto;
   text-align: center;
 }
 
-.modal > .close {
+.modal>.close {
   z-index: 10px;
   cursor: pointer;
   display: block;
@@ -52,10 +52,12 @@
   border-radius: 10px;
   box-shadow: inset 0px 0px 5px white;
 }
+
 .Box {
   float: right;
   opacity: 0;
 }
+
 .Box:hover {
   opacity: 1;
 }
@@ -82,7 +84,7 @@
   background: rgb(255, 255, 255);
   /* width: 50%; */
   padding: 5px;
-  /* height: 250px; */
+  height: 250px;
   overflow-y: auto;
   border-radius: 10px;
 }
@@ -102,4 +104,32 @@
 
 [data-popup="tooltip"].fpopup-overlay {
   background: transparent;
+}
+
+
+.npopup-content::-webkit-scrollbar {
+  width: 10px;
+}
+
+.npopup-content::-webkit-scrollbar-thumb {
+  background-color: #364152;
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+
+.npopup-content::-webkit-scrollbar-track {
+  background-color: grey;
+  border-radius: 10px;
+  box-shadow: inset 0px 0px 5px white;
+}
+
+.npopup-content {
+  margin: auto;
+  background: rgb(255, 255, 255);
+  width: 330px;
+  padding: 5px;
+  height: 500px;
+  overflow-y: auto;
+  border-radius: 10px;
 }

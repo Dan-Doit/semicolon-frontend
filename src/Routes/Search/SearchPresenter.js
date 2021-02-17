@@ -7,7 +7,10 @@ import UserCard from "../../Components/UserCard";
 import SquarePost from "../../Components/SquarePost";
 
 const Wrapper = styled.div`
-  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 50vh;
 `;
 
 const Section = styled.div`

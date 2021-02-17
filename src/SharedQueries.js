@@ -19,3 +19,30 @@ export const GET_TODAYINFO = gql`
         }
     }
 `;
+
+export const GET_NOTIFICATION = gql`
+{
+  getNotificate {
+    id
+    to{
+      id
+      username
+    }
+    from {
+      id
+      username
+      avatar
+    }
+    post {
+      id
+    }
+    message {
+      id
+    }
+    createdAt
+  }
+  getFollowing{
+    id
+  }
+}
+`;
