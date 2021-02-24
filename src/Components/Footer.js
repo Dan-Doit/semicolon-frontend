@@ -33,43 +33,32 @@ const Copyright = styled.span`
     align-items: center;
     justify-content: center;
     display: flex;
+    padding-bottom:30px;
 `;
 
 export default () => (
     <Footer>
         <List>
             <ListItem>
-                <Link href="#">about us</Link>
+                <Link href="https://github.com/Dan-Doit" target='_blank'>조    단</Link>
             </ListItem>
             <ListItem>
-                <Link href="#">support</Link>
+                <Link href="https://github.com/kjhg478" target='_blank'>김 종 훈</Link>
             </ListItem>
             <ListItem>
-                <Link href="#">press</Link>
+                <Link href="https://github.com/Soyun-Jung" target='_blank'>정 소 윤</Link>
             </ListItem>
             <ListItem>
-                <Link href="#">api</Link>
+                <Link style={{ fontSize: "15px", color:"black" }} href="https://semiinter.netlify.app/index.html" target='_blank'>interaction</Link>
             </ListItem>
             <ListItem>
-                <Link href="#">jobs</Link>
+                <Link href="https://github.com/wjdgodls7" target='_blank'>정 해 인</Link>
             </ListItem>
             <ListItem>
-                <Link href="#">privacy</Link>
+                <Link href="https://github.com/ryuseungha" target='_blank'>류 승 하</Link>
             </ListItem>
             <ListItem>
-                <Link href="#">terms</Link>
-            </ListItem>
-            <ListItem>
-                <Link href="#">directory</Link>
-            </ListItem>
-            <ListItem>
-                <Link href="#">profiles</Link>
-            </ListItem>
-            <ListItem>
-                <Link href="#">hashtags</Link>
-            </ListItem>
-            <ListItem>
-                <Link href="#">language</Link>
+                <Link href="https://github.com/Donghoon2190" target='_blank'>강 동 훈</Link>
             </ListItem>
         </List>
         <Copyright>semicolon {new Date().getFullYear()} &copy;</Copyright>
